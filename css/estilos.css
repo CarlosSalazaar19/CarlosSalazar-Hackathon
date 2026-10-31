@@ -32,20 +32,8 @@
   --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   color-scheme: dark;
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #E4EBF2; --card: rgba(246, 249, 252, .86); --card-solid: #F6F9FC; --tile: rgba(255, 255, 255, .9); --field: #FFFFFF;
-    --fg: #0F1D2B; --muted: #4D6278; --line: rgba(46, 74, 102, .14); --line-strong: rgba(46, 74, 102, .26);
-    --accent: #1F3F5E; --accent-2: #3F6A92; --accent-deep: #1F3F5E; --accent-soft: rgba(63, 106, 146, .1);
-    --metal: linear-gradient(100deg, #1C3550 0%, #4F7699 40%, #253F5A 65%, #6A8DAF 100%);
-    --glow: rgba(143, 176, 210, .55); --track: rgba(46, 74, 102, .14);
-    --ok: #2F7A4E; --ok-soft: rgba(47, 122, 78, .1); --warn: #8A5412; --warn-soft: rgba(176, 112, 30, .12);
-    --err: #9A2F1F; --err-soft: rgba(154, 47, 31, .1); --silueta: #6F93B8; --silueta-op: .24;
-    --plata: grayscale(1) brightness(1.15) contrast(1.4); --brillo-mezcla: soft-light; --brillo-op: 1; --barra: rgba(244, 248, 251, .82);
-    --shadow: 0 20px 40px -28px rgba(15, 29, 43, .35);
-    color-scheme: light;
-  }
-}
+/* El diseño azul metálico es oscuro siempre, sin importar el modo del sistema.
+   La variante clara solo se usa si el visor la elige explícitamente (data-theme="light"). */
 :root[data-theme="light"] {
   --bg: #E4EBF2; --card: rgba(246, 249, 252, .86); --card-solid: #F6F9FC; --tile: rgba(255, 255, 255, .9); --field: #FFFFFF;
   --fg: #0F1D2B; --muted: #4D6278; --line: rgba(46, 74, 102, .14); --line-strong: rgba(46, 74, 102, .26);

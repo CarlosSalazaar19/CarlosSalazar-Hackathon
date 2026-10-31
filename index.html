@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-version="20261031-oscuro">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,7 +9,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="css/estilos.css?v=20261031-plata">
+<link rel="stylesheet" href="css/estilos.css?v=20261031-oscuro">
+<script>
+  // Si el navegador muestra una copia guardada de esta página, compara su versión con la publicada y recarga una vez.
+  (function () {
+    var actual = document.documentElement.getAttribute("data-version");
+    try {
+      fetch(location.pathname + "?nc=" + Date.now(), { cache: "no-store" })
+        .then(function (r) { return r.text(); })
+        .then(function (t) {
+          var m = t.match(/data-version="([^"]+)"/);
+          if (m && m[1] !== actual && !sessionStorage.getItem("recarga-" + m[1])) {
+            sessionStorage.setItem("recarga-" + m[1], "1");
+            location.reload();
+          }
+        })
+        .catch(function () {});
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -178,8 +196,8 @@
   </footer>
 </div>
 
-<script src="data/itp-2026.js?v=20261031-plata"></script>
-<script src="js/calculo.js?v=20261031-plata"></script>
-<script src="js/app.js?v=20261031-plata"></script>
+<script src="data/itp-2026.js?v=20261031-oscuro"></script>
+<script src="js/calculo.js?v=20261031-oscuro"></script>
+<script src="js/app.js?v=20261031-oscuro"></script>
 </body>
 </html>
