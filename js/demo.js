@@ -30,7 +30,7 @@
   // Versión general (sin dirigirse a una persona), usada en el video: textos de demo/general/guion.json,
   // audios demo/general/NN.mp3 y duraciones medidas con ffprobe (segundos).
   const GENERAL = [
-    { t: "Hola, soy Junior, un agente operativo legal. Esta es la Calculadora del Impuesto sobre Transmisiones Patrimoniales de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis.", d: 12.260 },
+    { t: "Esta es la Calculadora del Impuesto sobre Transmisiones Patrimoniales de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis.", d: 9.613 },
     { t: "Primero se elige el municipio: Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque o Tlajomulco de Zúñiga. Cambian el escudo, la silueta del territorio y la tarifa de su ley.", d: 13.607 },
     { t: "Luego se captura el valor del inmueble, escribiéndolo o con el deslizador. El cálculo se actualiza al instante.", d: 7.059 },
     { t: "El resultado muestra el total a pagar, la tasa efectiva y el renglón de la tarifa aplicado, con el desglose entre impuesto y forma del aviso, y su fundamento legal.", d: 10.403 },
@@ -121,6 +121,8 @@
 
   if (GRABAR) {
     document.body.classList.add("grabando");   // oculta controles que no deben salir en el video
+    const quien = document.querySelector(".demo-quien");
+    if (quien) quien.textContent = "Demo narrado";   // el video no presenta a Junior
     window.addEventListener("load", () => setTimeout(iniciar, 1200));
   }
 
@@ -135,6 +137,19 @@
     barra.hidden = true;
     boton.querySelector("span").textContent = "Ver demo con Junior";
   }
+
+  // Video del demo en ventana emergente
+  const dialogo = $("videoDialogo"), video = $("videoDemo");
+  $("videoBtn").addEventListener("click", () => {
+    detener();
+    if (typeof dialogo.showModal === "function") dialogo.showModal(); else dialogo.setAttribute("open", "");
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  });
+  const cerrarVideo = () => { video.pause(); if (dialogo.open) dialogo.close(); };
+  $("videoCerrar").addEventListener("click", cerrarVideo);
+  dialogo.addEventListener("click", e => { if (e.target === dialogo) cerrarVideo(); });   // clic fuera del video
+  dialogo.addEventListener("close", () => video.pause());
 
   boton.addEventListener("click", iniciar);
   cerrar.addEventListener("click", detener);
