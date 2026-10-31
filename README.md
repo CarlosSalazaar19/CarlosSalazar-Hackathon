@@ -95,7 +95,7 @@ Interfaz tipo panel, en dos columnas.
 - **Resultado:** total a pagar en grande, con la tasa efectiva y el renglón aplicado; cuatro tarjetas con base, impuesto, forma y tasa marginal; el desglose; y un estado con las observaciones.
 - **Botón Restablecer** para volver a los valores iniciales.
 
-Paleta "espresso y crema" (#2B1B14, #5A3B2E, #8B6A55, #C9B19C, #F3E7D6). El tema oscuro es el predeterminado y el claro se activa según la preferencia del sistema.
+Paleta "azul metálico" (#0A121C, #13202E, #2E4A66, #6F93B8, #DCE6F0), con degradados plateados en el título y en el total. Los escudos se muestran en plateado mediante un filtro CSS de escala de grises; los archivos originales conservan sus colores. El tema oscuro es el predeterminado y el claro se activa según la preferencia del sistema.
 
 - **Fondo:** la silueta difuminada del municipio seleccionado (`img/municipios/<id>.svg`). La genera `herramientas/generar-siluetas.ps1` a partir del Marco Geoestadístico del INEGI, tomado de [mexico-geojson](https://github.com/PhantomInsights/mexico-geojson) (`2022/states/Jalisco.json`). Antes de que cargue el script se muestra la silueta del estado (`img/jalisco.svg`), que viene de [click_that_hood](https://github.com/codeforgermany/click_that_hood).
 - **Escudo:** el del municipio seleccionado va en la esquina superior izquierda (`img/escudos/<id>.svg`). Los cinco son de dominio público y vienen de Wikimedia Commons:
