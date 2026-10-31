@@ -44,6 +44,31 @@
     el.campoM2.hidden = !(e && (e.tipo === "cuotaPorSuperficie" || e.tipo === "factorPorSuperficie"));
   }
 
+  // Fondo con la silueta del municipio y escudo en el encabezado; transición con desvanecido.
+  const silueta = document.querySelector(".silueta");
+  const escudoFig = document.querySelector(".escudo");
+  const escudoImg = $("escudo");
+  const escudoNombre = $("escudoNombre");
+  let temporizador = null;
+  function pintarIdentidad(inmediato) {
+    const m = municipioActual();
+    const aplicar = () => {
+      const url = `url("img/municipios/${m.id}.svg")`;
+      silueta.style.webkitMaskImage = url;
+      silueta.style.maskImage = url;
+      escudoImg.src = `img/escudos/${m.id}.svg`;
+      escudoImg.alt = "Escudo de " + m.nombre;
+      escudoNombre.textContent = m.nombre;
+      silueta.classList.remove("cambiando");
+      escudoFig.classList.remove("cambiando");
+    };
+    clearTimeout(temporizador);
+    if (inmediato) return aplicar();
+    silueta.classList.add("cambiando");
+    escudoFig.classList.add("cambiando");
+    temporizador = setTimeout(aplicar, 300);
+  }
+
   function pintarTabla(resultado) {
     const m = municipioActual();
     el.tablaNombre.textContent = m.nombre + " (" + m.articulo + ")";
@@ -145,7 +170,7 @@
     if (n > 0) el.valor.value = n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   });
 
-  el.municipio.addEventListener("change", () => { llenarEspeciales(); actualizarCondiciones(); calcular(); });
+  el.municipio.addEventListener("change", () => { llenarEspeciales(); actualizarCondiciones(); pintarIdentidad(false); calcular(); });
   el.especial.addEventListener("change", () => { actualizarCondiciones(); calcular(); });
   ["valor", "m2", "porcentaje"].forEach(k => el[k].addEventListener("input", calcular));
   document.getElementById("form").addEventListener("submit", e => { e.preventDefault(); calcular(); });
@@ -155,5 +180,6 @@
   llenarMunicipios();
   llenarEspeciales();
   actualizarCondiciones();
+  pintarIdentidad(true);
   calcular();
 })();

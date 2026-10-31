@@ -48,7 +48,9 @@ body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.55 var(-
   -webkit-mask: url("../img/jalisco.svg") center / contain no-repeat;
           mask: url("../img/jalisco.svg") center / contain no-repeat;
   filter: blur(16px);
+  transition: opacity .35s ease;
 }
+.silueta.cambiando { opacity: 0; }
 @media (max-width: 820px) { .silueta { right: -25vw; width: 120vw; max-width: none; } }
 .wrap { position: relative; z-index: 1; }
 .wrap {
@@ -66,7 +68,17 @@ a { color: var(--ink); }
 .eyebrow { font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .muted { color: var(--muted); }
 .small { font-size: 13px; }
-.top { display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+.top { display: flex; align-items: flex-start; gap: 22px; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+.top-texto { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.escudo { margin: 0; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 96px; }
+.escudo img { width: 88px; height: 110px; object-fit: contain; transition: opacity .35s ease; filter: drop-shadow(0 2px 4px rgba(43, 27, 20, .18)); }
+.escudo.cambiando img { opacity: 0; }
+.escudo figcaption { font: 500 10.5px/1.2 var(--f-mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); text-align: center; }
+@media (max-width: 560px) {
+  .top { gap: 14px; }
+  .escudo { width: 64px; }
+  .escudo img { width: 60px; height: 76px; }
+}
 .lead { color: var(--muted); max-width: 68ch; }
 
 .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
