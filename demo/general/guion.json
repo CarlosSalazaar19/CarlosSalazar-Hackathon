@@ -1,0 +1,9 @@
+[
+  { "id": "01", "texto": "Hola, soy Junior, un agente operativo legal. Esta es la Calculadora del Impuesto sobre Transmisiones Patrimoniales de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis." },
+  { "id": "02", "texto": "Primero se elige el municipio: Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque o Tlajomulco de Zúñiga. Cambian el escudo, la silueta del territorio y la tarifa de su ley." },
+  { "id": "03", "texto": "Luego se captura el valor del inmueble, escribiéndolo o con el deslizador. El cálculo se actualiza al instante." },
+  { "id": "04", "texto": "El resultado muestra el total a pagar, la tasa efectiva y el renglón de la tarifa aplicado, con el desglose entre impuesto y forma del aviso, y su fundamento legal." },
+  { "id": "05", "texto": "También aplica los beneficios de ley, como la tarifa de vivienda, las exenciones por herencia o las regularizaciones, y marca con una alerta lo que debe confirmarse en ventanilla." },
+  { "id": "06", "texto": "Se puede ver la operación paso a paso y la tabla completa del municipio. Todas las tarifas se verificaron contra el texto oficial del Congreso del Estado." },
+  { "id": "07", "texto": "Y con un clic se copia el desglose para un correo o un expediente. Calculadora ITP Jalisco: rápida, transparente y fundamentada." }
+]

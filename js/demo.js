@@ -8,7 +8,7 @@
   const ESCENAS = [
     { audio: "01", foco: ".top", texto: "Buen día, licenciado. Soy Junior, su agente operativo legal. Le presento la Calculadora del Impuesto sobre Transmisiones Patrimoniales para el Estado de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis.",
       accion: async () => { restablecer(); } },
-    { audio: "02", foco: "#municipio", texto: "Primero se selecciona el municipio. Hoy tenemos Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque y Tlajomulco de Zúñiga. Al elegir uno, cambian su escudo y la silueta de su territorio, y se carga la tarifa de su ley.",
+    { audio: "02", foco: "#municipio", arriba: true, texto: "Primero se selecciona el municipio. Hoy tenemos Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque y Tlajomulco de Zúñiga. Al elegir uno, cambian su escudo y la silueta de su territorio, y se carga la tarifa de su ley.",
       accion: async (s) => { for (const m of ["zapopan", "tonala", "tlaquepaque", "tlajomulco", "zapopan"]) { if (s.cancelado) return; await espera(2400); elegir("municipio", m); } } },
     { audio: "03", foco: "#valor", focoPadre: ".campo", texto: "Después se captura el valor del inmueble, escribiéndolo o con el deslizador. El cálculo se actualiza al instante.",
       accion: async (s) => { await espera(1200); await animarValor(1000000, 2500000, 2600, s); } },
@@ -27,6 +27,22 @@
       accion: async () => {} }
   ];
 
+  // Versión general (sin dirigirse a una persona), usada en el video: textos de demo/general/guion.json,
+  // audios demo/general/NN.mp3 y duraciones medidas con ffprobe (segundos).
+  const GENERAL = [
+    { t: "Hola, soy Junior, un agente operativo legal. Esta es la Calculadora del Impuesto sobre Transmisiones Patrimoniales de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis.", d: 12.260 },
+    { t: "Primero se elige el municipio: Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque o Tlajomulco de Zúñiga. Cambian el escudo, la silueta del territorio y la tarifa de su ley.", d: 13.607 },
+    { t: "Luego se captura el valor del inmueble, escribiéndolo o con el deslizador. El cálculo se actualiza al instante.", d: 7.059 },
+    { t: "El resultado muestra el total a pagar, la tasa efectiva y el renglón de la tarifa aplicado, con el desglose entre impuesto y forma del aviso, y su fundamento legal.", d: 10.403 },
+    { t: "También aplica los beneficios de ley, como la tarifa de vivienda, las exenciones por herencia o las regularizaciones, y marca con una alerta lo que debe confirmarse en ventanilla.", d: 11.192 },
+    { t: "Se puede ver la operación paso a paso y la tabla completa del municipio. Todas las tarifas se verificaron contra el texto oficial del Congreso del Estado.", d: 8.638 },
+    { t: "Y con un clic se copia el desglose para un correo o un expediente. Calculadora ITP Jalisco: rápida, transparente y fundamentada.", d: 8.870 }
+  ];
+  const parametros = new URLSearchParams(location.search);
+  const GRABAR = parametros.has("grabar");                       // sin audio, tiempos fijos, arranque automático
+  const USAR_GENERAL = GRABAR || parametros.get("demo") === "general";
+  const PAUSA = 500;
+
   // --- utilidades sobre la interfaz existente (sólo dispara los mismos eventos que el usuario) ---
   function elegir(id, valor) { const e = $(id); e.value = valor; e.dispatchEvent(new Event("change")); }
   function restablecer() { $("restablecer").click(); document.querySelector(".detalle").open = false; }
@@ -41,7 +57,7 @@
     }
   }
   let focoActual = null;
-  function enfocar(sel, padre) {
+  function enfocar(sel, padre, arriba) {
     if (focoActual) focoActual.classList.remove("demo-foco");
     let e = document.querySelector(sel);
     if (e && padre) e = e.closest(padre) || e;
@@ -50,7 +66,7 @@
     e.classList.add("demo-foco");
     // Deja el elemento justo debajo de la barra superior, lejos de los subtítulos de abajo.
     const barraAlto = (document.querySelector(".barra-sup")?.offsetHeight || 60) + 24;
-    const y = e.getBoundingClientRect().top + window.scrollY - barraAlto;
+    const y = arriba ? 0 : e.getBoundingClientRect().top + window.scrollY - barraAlto;   // arriba: mantiene a la vista el escudo
     window.scrollTo({ top: Math.max(0, y), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
 
@@ -75,16 +91,37 @@
     document.body.classList.add("en-demo");
     barra.hidden = false;
     boton.querySelector("span").textContent = "Detener demo";
+    // Modo grabación: cada escena arranca en un instante fijo para que la voz se pueda montar después con precisión.
+    const registro = GRABAR ? (window.__grabacion = { inicio: Date.now(), escenas: [], fin: null }) : null;
+    let programado = registro ? registro.inicio : 0;
     for (let i = 0; i < ESCENAS.length && !s.cancelado; i++) {
       const esc = ESCENAS[i];
-      sub.textContent = esc.texto;
+      const gen = GENERAL[i];
+      if (registro) { await espera(Math.max(0, programado - Date.now())); registro.escenas.push(Date.now()); }
+      sub.textContent = USAR_GENERAL ? gen.t : esc.texto;
       progreso.style.setProperty("--avance", ((i + 1) / ESCENAS.length * 100) + "%");
-      enfocar(esc.foco, esc.focoPadre);
-      await Promise.all([reproducir(`demo/${esc.audio}.mp3`, s), esc.accion(s)]);
-      if (!s.cancelado) await espera(450);
+      enfocar(esc.foco, esc.focoPadre, esc.arriba);
+      const voz = GRABAR ? espera(gen.d * 1000) : reproducir(USAR_GENERAL ? `demo/general/${esc.audio}.mp3` : `demo/${esc.audio}.mp3`, s);
+      await Promise.all([voz, esc.accion(s)]);
+      programado += gen.d * 1000 + PAUSA;
+      if (!s.cancelado && !GRABAR) await espera(450);
     }
-    if (!s.cancelado) { sub.textContent = "Fin del demo. Puede usar la calculadora libremente."; await espera(2500); }
+    if (!s.cancelado) {
+      if (registro) await espera(Math.max(0, programado - Date.now()));
+      sub.textContent = USAR_GENERAL
+        ? "Calculadora ITP Jalisco · Leyes de Ingresos municipales 2026 · carlossalazaar19.github.io/CarlosSalazar-Hackathon"
+        : "Fin del demo. Puede usar la calculadora libremente.";
+      if (focoActual) focoActual.classList.remove("demo-foco");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      await espera(GRABAR ? 3500 : 2500);
+    }
+    if (registro) registro.fin = Date.now();
     if (sesion === s) detener();
+  }
+
+  if (GRABAR) {
+    document.body.classList.add("grabando");   // oculta controles que no deben salir en el video
+    window.addEventListener("load", () => setTimeout(iniciar, 1200));
   }
 
   function detener() {

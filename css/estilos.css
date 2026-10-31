@@ -127,6 +127,7 @@ body.en-demo .btn-demo .ico { display: none; }
 .demo-progreso::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--avance); background: var(--metal); transition: width .6s ease; }
 .demo-cerrar { flex: 0 0 auto; width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; cursor: pointer; color: var(--fg); background: var(--accent-soft); border: 1px solid var(--line-strong); }
 body.en-demo .wrap { padding-bottom: 180px; }
+body.grabando .btn-demo, body.grabando .demo-cerrar { display: none; }
 .demo-foco {
   position: relative; z-index: 2;
   outline: 2px solid var(--accent-2); outline-offset: 6px; border-radius: 14px;
