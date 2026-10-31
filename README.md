@@ -87,6 +87,10 @@ Abre `pruebas/index.html` a través de un servidor local. Verifica casos calcula
    powershell -ExecutionPolicy Bypass -File herramientas\generar-excel.ps1
    ```
 
+## Diseño
+
+Paleta "espresso y crema" (#2B1B14, #5A3B2E, #8B6A55, #C9B19C, #F3E7D6), con modo claro y oscuro. Al fondo va la silueta difuminada del Estado de Jalisco (`img/jalisco.svg`). Esa silueta se generó a partir del GeoJSON de estados de México del proyecto [click_that_hood](https://github.com/codeforgermany/click_that_hood).
+
 ## Aviso
 
 Herramienta de apoyo para el cálculo. El monto oficial lo determina la Tesorería municipal correspondiente.
