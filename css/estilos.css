@@ -148,7 +148,7 @@ body.grabando .btn-demo, body.grabando .btn-video, body.grabando .demo-cerrar { 
   transition: border-color .15s;
 }
 .btn-video:hover { border-color: var(--accent-2); }
-@media (max-width: 560px) { .btn-video span { display: none; } .btn-video { padding: 7px 9px; } }
+@media (max-width: 340px) { .btn-video span { display: none; } .btn-video { padding: 7px 9px; } }
 .video-dialogo {
   width: min(960px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 0; overflow: hidden;
   border: 1px solid var(--line-strong); border-radius: 18px; background: var(--card-solid); color: var(--fg);

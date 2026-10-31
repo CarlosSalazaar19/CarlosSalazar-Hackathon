@@ -90,7 +90,7 @@
     const s = sesion = { cancelado: false, audio: null };
     document.body.classList.add("en-demo");
     barra.hidden = false;
-    boton.querySelector("span").textContent = "Detener demo";
+    if (boton) boton.querySelector("span").textContent = "Detener demo";
     // Modo grabación: cada escena arranca en un instante fijo para que la voz se pueda montar después con precisión.
     const registro = GRABAR ? (window.__grabacion = { inicio: Date.now(), escenas: [], fin: null }) : null;
     let programado = registro ? registro.inicio : 0;
@@ -135,7 +135,7 @@
     if (focoActual) focoActual.classList.remove("demo-foco");
     focoActual = null;
     barra.hidden = true;
-    boton.querySelector("span").textContent = "Ver demo con Junior";
+    if (boton) boton.querySelector("span").textContent = "Ver demo con Junior";
   }
 
   // Video del demo en ventana emergente
@@ -151,7 +151,7 @@
   dialogo.addEventListener("click", e => { if (e.target === dialogo) cerrarVideo(); });   // clic fuera del video
   dialogo.addEventListener("close", () => video.pause());
 
-  boton.addEventListener("click", iniciar);
+  if (boton) boton.addEventListener("click", iniciar);   // el botón del demo interactivo se retiró de la página; el modo ?grabar sigue disponible
   cerrar.addEventListener("click", detener);
   document.addEventListener("keydown", e => { if (e.key === "Escape") detener(); });
 })();
