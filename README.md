@@ -89,7 +89,13 @@ Abre `pruebas/index.html` a través de un servidor local. Verifica casos calcula
 
 ## Diseño
 
-Paleta "espresso y crema" (#2B1B14, #5A3B2E, #8B6A55, #C9B19C, #F3E7D6), con modo claro y oscuro.
+Interfaz tipo panel, en dos columnas.
+
+- **Datos de la operación:** municipio, valor con deslizador logarítmico de $100 mil a $50 millones, porcentaje transmitido con deslizador y régimen.
+- **Resultado:** total a pagar en grande, con la tasa efectiva y el renglón aplicado; cuatro tarjetas con base, impuesto, forma y tasa marginal; el desglose; y un estado con las observaciones.
+- **Botón Restablecer** para volver a los valores iniciales.
+
+Paleta "espresso y crema" (#2B1B14, #5A3B2E, #8B6A55, #C9B19C, #F3E7D6). El tema oscuro es el predeterminado y el claro se activa según la preferencia del sistema.
 
 - **Fondo:** la silueta difuminada del municipio seleccionado (`img/municipios/<id>.svg`). La genera `herramientas/generar-siluetas.ps1` a partir del Marco Geoestadístico del INEGI, tomado de [mexico-geojson](https://github.com/PhantomInsights/mexico-geojson) (`2022/states/Jalisco.json`). Antes de que cargue el script se muestra la silueta del estado (`img/jalisco.svg`), que viene de [click_that_hood](https://github.com/codeforgermany/click_that_hood).
 - **Escudo:** el del municipio seleccionado va en la esquina superior izquierda (`img/escudos/<id>.svg`). Los cinco son de dominio público y vienen de Wikimedia Commons:

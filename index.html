@@ -8,98 +8,163 @@
 <meta name="description" content="Impuesto sobre Transmisiones Patrimoniales 2026 para Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque y Tlajomulco de Zúñiga.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5l-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.6 0-2.7.8-2.7 2s1 1.7 2.7 2 2.8.9 2.8 2.1-1.2 2-2.8 2c-1.2 0-2.2-.5-2.7-1.4M12 6.5v1.5M12 16v1.5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17.5v.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+  </defs>
+</svg>
+
 <div class="silueta" aria-hidden="true"></div>
+
 <div class="wrap">
   <header class="top">
-    <figure class="escudo">
-      <img id="escudo" src="img/escudos/guadalajara.svg" alt="Escudo de Guadalajara" width="88" height="110">
-      <figcaption id="escudoNombre">Guadalajara</figcaption>
-    </figure>
-    <div class="top-texto">
-      <span class="eyebrow">Jalisco · Leyes de Ingresos municipales 2026</span>
-      <h1>Impuesto sobre Transmisiones Patrimoniales</h1>
-      <p class="lead">Captura el municipio y el valor del inmueble. Obtienes el impuesto, la forma del aviso y el total, con el renglón de la tarifa y el artículo que lo fundamenta.</p>
+    <div class="marca">
+      <figure class="escudo">
+        <img id="escudo" src="img/escudos/guadalajara.svg" alt="Escudo de Guadalajara" width="76" height="96">
+      </figure>
+      <div class="top-texto">
+        <span class="eyebrow"><span id="escudoNombre">Guadalajara</span> · Leyes de Ingresos municipales 2026</span>
+        <h1>Impuesto sobre <span class="acento">Transmisiones Patrimoniales</span></h1>
+        <p class="lead">Ajusta el municipio y el valor del inmueble y obtén al instante el impuesto, la forma del aviso y el total a pagar, con su fundamento.</p>
+      </div>
     </div>
+    <button type="button" class="btn-ghost" id="restablecer"><svg class="ico"><use href="#i-reset"/></svg>Restablecer</button>
   </header>
 
   <main class="grid">
-    <form id="form" class="panel" novalidate>
-      <div class="field">
-        <label for="municipio">Municipio</label>
-        <select id="municipio" name="municipio"></select>
-      </div>
-
-      <div class="field">
-        <label for="valor">Valor del inmueble</label>
-        <div class="money">
-          <span aria-hidden="true">$</span>
-          <input id="valor" name="valor" inputmode="decimal" autocomplete="off" placeholder="0.00" value="1,000,000.00">
+    <!-- Captura -->
+    <section class="card" aria-labelledby="tCaptura">
+      <div class="card-head">
+        <div>
+          <h2 id="tCaptura">Datos de la operación</h2>
+          <p class="sub">Elige el municipio y desliza para modelar el valor.</p>
         </div>
-        <small class="hint">Valor que se toma como base (catastral, avalúo u operación).</small>
+        <span class="chip-ico"><svg class="ico"><use href="#i-sliders"/></svg></span>
       </div>
 
-      <div class="field">
-        <label for="especial">Régimen</label>
-        <select id="especial" name="especial"></select>
-        <small class="hint" id="especialCond"></small>
-      </div>
-
-      <div class="field" id="campoM2" hidden>
-        <label for="m2">Superficie del predio (m²)</label>
-        <input id="m2" name="m2" inputmode="decimal" autocomplete="off" placeholder="0">
-      </div>
-
-      <details class="field more" id="masOpciones">
-        <summary>Porcentaje que se transmite</summary>
-        <div class="pct">
-          <input id="porcentaje" name="porcentaje" inputmode="decimal" value="100" aria-label="Porcentaje que se transmite">
-          <span>%</span>
+      <form id="form" novalidate class="campos">
+        <div class="campo">
+          <div class="campo-top">
+            <div><label for="municipio">Municipio</label><p class="sub">Ley de Ingresos aplicable</p></div>
+          </div>
+          <select id="municipio" name="municipio"></select>
         </div>
-        <small class="hint" id="pctNota">Úsalo cuando se transmite solo una parte (copropiedad, derechos parciales). El impuesto se calcula al 100% y se aplica el porcentaje.</small>
-      </details>
-    </form>
 
-    <section class="panel result" aria-live="polite">
-      <div class="result-head">
-        <span class="eyebrow" id="resMunicipio">—</span>
-        <button type="button" id="copiar" class="btn">Copiar desglose</button>
+        <div class="campo">
+          <div class="campo-top">
+            <div><label for="valor">Valor del inmueble</label><p class="sub">Base: catastral, avalúo u operación</p></div>
+            <div class="caja-num"><span>$</span><input id="valor" name="valor" inputmode="decimal" autocomplete="off" value="1,000,000.00" aria-label="Valor del inmueble"></div>
+          </div>
+          <input type="range" id="valorRango" min="0" max="1000" step="1" aria-label="Deslizar valor del inmueble">
+          <div class="rango-lim"><span>$100 mil</span><span>$50 millones</span></div>
+        </div>
+
+        <div class="campo">
+          <div class="campo-top">
+            <div><label for="porcentaje">Porcentaje que se transmite</label><p class="sub" id="pctNota">El impuesto se calcula al 100% y se aplica la proporción.</p></div>
+            <div class="caja-num corta"><input id="porcentaje" name="porcentaje" inputmode="decimal" value="100" aria-label="Porcentaje que se transmite"><span>%</span></div>
+          </div>
+          <input type="range" id="pctRango" min="1" max="100" step="1" value="100" aria-label="Deslizar porcentaje que se transmite">
+          <div class="rango-lim"><span>1%</span><span>100%</span></div>
+        </div>
+
+        <div class="campo">
+          <div class="campo-top">
+            <div><label for="especial">Régimen</label><p class="sub">Tarifa general o beneficio de ley</p></div>
+          </div>
+          <select id="especial" name="especial"></select>
+          <p class="nota-cond" id="especialCond"></p>
+        </div>
+
+        <div class="campo" id="campoM2" hidden>
+          <div class="campo-top">
+            <div><label for="m2">Superficie del predio</label><p class="sub">Requerida por este régimen</p></div>
+            <div class="caja-num corta"><input id="m2" name="m2" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Superficie en metros cuadrados"><span>m²</span></div>
+          </div>
+        </div>
+      </form>
+
+      <div class="aviso-info">
+        <svg class="ico"><use href="#i-info"/></svg>
+        <p id="notaBase">—</p>
+      </div>
+    </section>
+
+    <!-- Resultado -->
+    <section class="card card-res" aria-labelledby="tRes" aria-live="polite">
+      <div class="card-head">
+        <div>
+          <h2 id="tRes">Resultado</h2>
+          <p class="sub" id="resMunicipio">—</p>
+        </div>
+        <span class="pill">Ejercicio 2026</span>
       </div>
 
       <div id="error" class="error" hidden></div>
 
-      <dl class="breakdown" id="desglose">
-        <div class="row"><dt>Impuesto sobre transmisiones patrimoniales</dt><dd id="resImpuesto">—</dd></div>
-        <div class="row"><dt><span id="resFormaConcepto">Forma del aviso</span><small id="resFormaArt"></small></dt><dd id="resForma">—</dd></div>
-        <div class="row total"><dt>Total</dt><dd id="resTotal">—</dd></div>
-      </dl>
-
-      <div class="calc">
-        <h2>Cómo se calculó</h2>
-        <div id="operacion" class="operacion"></div>
+      <div class="hero">
+        <span class="hero-lbl"><svg class="ico"><use href="#i-trend"/></svg>Total a pagar</span>
+        <div class="hero-num" id="resTotal">—</div>
+        <div class="hero-meta">
+          <span class="badge" id="tasaEfectiva">—</span>
+          <span class="meta" id="renglon">—</span>
+        </div>
       </div>
 
+      <div class="tiles">
+        <div class="tile"><span class="tile-ico"><svg class="ico"><use href="#i-home"/></svg></span><span class="tile-lbl">Base gravable</span><span class="tile-num" id="tBase">—</span></div>
+        <div class="tile"><span class="tile-ico"><svg class="ico"><use href="#i-coin"/></svg></span><span class="tile-lbl">Impuesto</span><span class="tile-num" id="resImpuesto">—</span></div>
+        <div class="tile"><span class="tile-ico"><svg class="ico"><use href="#i-file"/></svg></span><span class="tile-lbl">Forma del aviso</span><span class="tile-num" id="resForma">—</span></div>
+        <div class="tile"><span class="tile-ico"><svg class="ico"><use href="#i-percent"/></svg></span><span class="tile-lbl">Tasa marginal</span><span class="tile-num" id="tTasa">—</span></div>
+      </div>
+
+      <div class="resumen">
+        <h3 class="eyebrow">Desglose</h3>
+        <dl>
+          <div class="fila"><dt>Impuesto sobre transmisiones patrimoniales</dt><dd id="dImpuesto">—</dd></div>
+          <div class="fila"><dt><span id="resFormaConcepto">Forma del aviso</span><small id="resFormaArt"></small></dt><dd id="dForma">—</dd></div>
+          <div class="fila total"><dt>Total</dt><dd id="dTotal">—</dd></div>
+        </dl>
+        <button type="button" id="copiar" class="btn-ghost chico"><svg class="ico"><use href="#i-copy"/></svg><span>Copiar desglose</span></button>
+      </div>
+
+      <div class="estado" id="estado">
+        <span class="estado-ico"><svg class="ico"><use href="#i-check"/></svg></span>
+        <div><strong id="estadoTit">Cálculo conforme a la tarifa</strong><p id="estadoTxt">Sin observaciones para este cálculo.</p></div>
+      </div>
       <ul id="advertencias" class="warnings"></ul>
 
-      <div class="fund">
-        <h2>Fundamento</h2>
-        <ul id="fundamento"></ul>
-        <p class="muted small" id="notaBase"></p>
-      </div>
+      <details class="detalle">
+        <summary>Cómo se calculó y fundamento</summary>
+        <div id="operacion" class="operacion"></div>
+        <ul id="fundamento" class="fund"></ul>
+      </details>
     </section>
   </main>
 
-  <section class="tabla-sec">
-    <h2>Tarifa general de <span id="tablaNombre"></span></h2>
+  <section class="card tabla-card">
+    <div class="card-head">
+      <div><h2>Tarifa general</h2><p class="sub" id="tablaNombre"></p></div>
+    </div>
     <div class="tbl"><table id="tabla"><thead><tr><th>Límite inferior</th><th>Límite superior</th><th>Cuota fija</th><th>Tasa marginal</th></tr></thead><tbody></tbody></table></div>
   </section>
 
   <footer class="foot">
-    <p>Fuente: Leyes de Ingresos municipales 2026, Biblioteca Virtual del <a id="linkListado" href="#" target="_blank" rel="noopener">Congreso del Estado de Jalisco</a>. Tarifas al <span id="actualizado"></span>.</p>
-    <p>Herramienta de apoyo. El monto oficial lo determina la Tesorería municipal; verifica en ventanilla los conceptos marcados con ⚠️.</p>
+    <p>Fuente: Leyes de Ingresos municipales 2026, Biblioteca Virtual del <a id="linkListado" href="#" target="_blank" rel="noopener">Congreso del Estado de Jalisco</a>. Tarifas al <span id="actualizado"></span>. Herramienta de apoyo: el monto oficial lo determina la Tesorería municipal; verifica en ventanilla los conceptos marcados con ⚠️.</p>
     <p>Siluetas municipales: Marco Geoestadístico del INEGI (vía <a href="https://github.com/PhantomInsights/mexico-geojson" target="_blank" rel="noopener">mexico-geojson</a>). Escudos: <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, dominio público.</p>
   </footer>
 </div>
