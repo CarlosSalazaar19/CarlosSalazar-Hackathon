@@ -1,0 +1,9 @@
+[
+  { "id": "01", "texto": "Buen día, licenciado. Soy Junior, su agente operativo legal. Le presento la Calculadora del Impuesto sobre Transmisiones Patrimoniales para el Estado de Jalisco, construida con las Leyes de Ingresos municipales dos mil veintiséis." },
+  { "id": "02", "texto": "Primero se selecciona el municipio. Hoy tenemos Guadalajara, Zapopan, Tonalá, San Pedro Tlaquepaque y Tlajomulco de Zúñiga. Al elegir uno, cambian su escudo y la silueta de su territorio, y se carga la tarifa de su ley." },
+  { "id": "03", "texto": "Después se captura el valor del inmueble, escribiéndolo o con el deslizador. El cálculo se actualiza al instante." },
+  { "id": "04", "texto": "Aquí está el resultado: el total a pagar, la tasa efectiva y el renglón de la tarifa que se aplicó. El desglose separa el impuesto del costo de la forma del aviso, con el artículo que lo fundamenta." },
+  { "id": "05", "texto": "La calculadora también aplica los beneficios de ley, como la tarifa preferencial de vivienda, las exenciones por herencia o las regularizaciones. Si algo requiere confirmarse en ventanilla, se lo marco con una alerta." },
+  { "id": "06", "texto": "Para total transparencia, puede ver la operación paso a paso y la tabla completa del municipio, con el renglón aplicado resaltado. Todas las tarifas se verificaron contra el texto oficial publicado por el Congreso del Estado." },
+  { "id": "07", "texto": "Y si necesita el cálculo para un correo o un expediente, con un clic copia el desglose completo. Quedo a sus órdenes, licenciado." }
+]

@@ -105,6 +105,18 @@ Paleta "azul metálico" (#0A121C, #13202E, #2E4A66, #6F93B8, #DCE6F0), con degra
   - [San Pedro Tlaquepaque](https://commons.wikimedia.org/wiki/File:Escudo_Tlaquepaque_Jalisco.svg)
   - [Tlajomulco de Zúñiga](https://commons.wikimedia.org/wiki/File:Coat_of_arms_of_Tlajomulco.svg)
 
+## Demo narrado por Junior
+
+El botón **Ver demo con Junior**, en la barra superior, presenta la plataforma en unos 90 segundos. Junior narra con voz sintetizada en ElevenLabs (voz "Brian", modelo multilingüe) y en ese tiempo la página:
+
+- elige municipios;
+- mueve el deslizador de valor;
+- aplica un régimen de vivienda;
+- abre el desglose;
+- resalta cada sección mientras aparecen los subtítulos.
+
+Los audios están pregrabados en `demo/01.mp3` a `demo/07.mp3` y el guion está en `demo/guion.json`; la página no llama a ninguna API. `demo/demo-completo.mp3` reúne la narración entera para compartirla. El demo se detiene con el botón ✕ o con la tecla Esc.
+
 ## Aviso
 
 Herramienta de apoyo para el cálculo. El monto oficial lo determina la Tesorería municipal correspondiente.

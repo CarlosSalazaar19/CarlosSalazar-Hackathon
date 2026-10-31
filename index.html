@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" data-version="20261031-texto2">
+<html lang="es" data-version="20261031-demo">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="css/estilos.css?v=20261031-texto2">
+<link rel="stylesheet" href="css/estilos.css?v=20261031-demo">
 <script>
   // Si el navegador muestra una copia guardada de esta página, compara su versión con la publicada y recarga una vez.
   (function () {
@@ -43,6 +43,8 @@
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17.5v.01"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
     <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M12 5l-7 2M12 5l7 2"/><path d="M5 7 2 14a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
   </defs>
 </svg>
@@ -52,7 +54,10 @@
 <div class="barra-sup">
   <div class="barra-int">
     <span class="barra-marca"><span class="barra-logo"><svg class="ico"><use href="#i-scale"/></svg></span>Calculadora ITP <span class="barra-sep">·</span> Jalisco</span>
-    <span class="barra-meta"><span class="barra-oculto">Leyes de Ingresos municipales</span> 2026 <span class="barra-punto" aria-hidden="true"></span><span id="barraMunicipio">Guadalajara</span></span>
+    <div class="barra-der">
+      <span class="barra-meta"><span class="barra-oculto">Leyes de Ingresos municipales</span> 2026 <span class="barra-punto" aria-hidden="true"></span><span id="barraMunicipio">Guadalajara</span></span>
+      <button type="button" class="btn-demo" id="demoBtn"><svg class="ico"><use href="#i-play"/></svg><span>Ver demo con Junior</span></button>
+    </div>
   </div>
 </div>
 
@@ -196,8 +201,21 @@
   </footer>
 </div>
 
-<script src="data/itp-2026.js?v=20261031-texto2"></script>
-<script src="js/calculo.js?v=20261031-texto2"></script>
-<script src="js/app.js?v=20261031-texto2"></script>
+<div class="demo-barra" id="demoBarra" hidden role="region" aria-label="Demo narrado por Junior">
+  <div class="demo-int">
+    <span class="demo-avatar" aria-hidden="true"><svg class="ico"><use href="#i-scale"/></svg></span>
+    <div class="demo-cuerpo">
+      <span class="demo-quien">Junior · demo narrado</span>
+      <p id="demoTexto" aria-live="polite"></p>
+      <span class="demo-progreso" id="demoProgreso"></span>
+    </div>
+    <button type="button" class="demo-cerrar" id="demoCerrar" aria-label="Detener demo"><svg class="ico"><use href="#i-x"/></svg></button>
+  </div>
+</div>
+
+<script src="data/itp-2026.js?v=20261031-demo"></script>
+<script src="js/calculo.js?v=20261031-demo"></script>
+<script src="js/app.js?v=20261031-demo"></script>
+<script src="js/demo.js?v=20261031-demo"></script>
 </body>
 </html>
