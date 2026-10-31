@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pruebas ITP</title>
+<style>
+  body { font: 14px/1.5 ui-monospace, Consolas, monospace; margin: 24px; background: #fff; color: #111; }
+  .ok { color: #1f7a52; } .fail { color: #a12a2a; font-weight: 700; }
+  h1 { font: 600 18px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Pruebas del motor de cálculo ITP 2026</h1>
+<pre id="out"></pre>
+<script src="../data/itp-2026.js"></script>
+<script src="../js/calculo.js"></script>
+<script>
+  const { calcularITP, aplicarTarifa, redondear } = window.ITP;
+  const out = document.getElementById("out");
+  let pasadas = 0, fallidas = 0;
+  function log(ok, msg) {
+    const s = document.createElement("span");
+    s.className = ok ? "ok" : "fail";
+    s.textContent = (ok ? "✔ " : "✘ ") + msg + "\n";
+    out.appendChild(s);
+    ok ? pasadas++ : fallidas++;
+  }
+  function igual(nombre, real, esperado, tol = 0.001) {
+    log(Math.abs(real - esperado) <= tol, `${nombre}: ${real.toFixed(2)} (esperado ${esperado.toFixed(2)})`);
+  }
+  function lanza(nombre, fn) {
+    try { fn(); log(false, nombre + ": no lanzó error"); } catch (e) { log(true, nombre + ": " + e.message); }
+  }
+
+  // Casos calculados a mano (ver plan)
+  let r = calcularITP({ municipio: "guadalajara", valor: 1000000 });
+  igual("GDL $1,000,000 impuesto", r.impuesto, 25886.80); igual("GDL forma", r.forma, 0); igual("GDL total", r.total, 25886.80);
+
+  r = calcularITP({ municipio: "zapopan", valor: 1000000 });
+  igual("Zapopan $1,000,000 impuesto", r.impuesto, 26200.00); igual("Zapopan forma", r.forma, 87); igual("Zapopan total", r.total, 26287.00);
+
+  r = calcularITP({ municipio: "tlajomulco", valor: 357530 });
+  igual("Tlajomulco $357,530 impuesto", r.impuesto, 8948.25); igual("Tlajomulco forma", r.forma, 104);
+
+  r = calcularITP({ municipio: "tonala", valor: 500000, especial: "vivienda" });
+  igual("Tonalá $500,000 vivienda art. 45", r.impuesto, 5230.00); igual("Tonalá forma", r.forma, 48);
+
+  r = calcularITP({ municipio: "tlaquepaque", valor: 2000000, especial: "herencia" });
+  igual("Tlaquepaque $2,000,000 herencia", r.impuesto, 12662.95); igual("Tlaquepaque forma", r.forma, 23); igual("Tlaquepaque total", r.total, 12685.95);
+
+  // Regímenes adicionales
+  r = calcularITP({ municipio: "guadalajara", valor: 300000, especial: "vivienda" });
+  igual("GDL vivienda económica $300,000 (factor 0.5)", r.impuesto, 3750.00);
+  r = calcularITP({ municipio: "guadalajara", valor: 400000, especial: "vivienda" });
+  igual("GDL vivienda rebasa tope → general", r.impuesto, 10062.95);
+  log(r.advertencias.length > 0, "GDL vivienda rebasa tope → advertencia");
+  r = calcularITP({ municipio: "zapopan", valor: 1500000, especial: "herencia" });
+  igual("Zapopan herencia $1,500,000 (exento)", r.impuesto, 0);
+  r = calcularITP({ municipio: "tlajomulco", valor: 200000, especial: "regularizacion", m2: 420 });
+  igual("Tlajomulco regularización 420 m²", r.impuesto, 208);
+  r = calcularITP({ municipio: "zapopan", valor: 800000, especial: "ran", m2: 800 });
+  igual("Zapopan RAN 800 m² (factor 0.10)", r.impuesto, 2080.00);
+  r = calcularITP({ municipio: "tlajomulco", valor: 500000, especial: "rusticos" });
+  igual("Tlajomulco rústicos 1%", r.impuesto, 5000.00);
+  r = calcularITP({ municipio: "tonala", valor: 1000000, porcentaje: 50 });
+  igual("Tonalá $1,000,000 al 50%", r.impuesto, 12792.92);
+
+  lanza("Valor cero", () => calcularITP({ municipio: "guadalajara", valor: 0 }));
+  lanza("Porcentaje 0", () => calcularITP({ municipio: "guadalajara", valor: 100, porcentaje: 0 }));
+  lanza("Superficie faltante", () => calcularITP({ municipio: "guadalajara", valor: 100, especial: "regularizacion" }));
+
+  // Continuidad de cada tabla: el impuesto en el LS de una fila debe igualar la CF de la siguiente (±$0.02)
+  for (const m of window.ITP_DATA.municipios) {
+    const tablas = [["general", m.tarifa], ...m.especiales.filter(e => e.tabla).map(e => [e.id, e.tabla])];
+    for (const [nombre, tabla] of tablas) {
+      for (let i = 0; i < tabla.length - 1; i++) {
+        const f = tabla[i], sig = tabla[i + 1];
+        const enLS = (f.ls - f.li) * f.t + f.cf;
+        log(Math.abs(enLS - sig.cf) <= 0.02, `${m.nombre} ${nombre} fila ${i + 1}→${i + 2}: ${enLS.toFixed(2)} vs CF ${sig.cf.toFixed(2)}`);
+      }
+    }
+  }
+
+  const res = document.createElement("strong");
+  res.className = fallidas ? "fail" : "ok";
+  res.id = "resumen";
+  res.textContent = `\n${pasadas} pasadas, ${fallidas} fallidas`;
+  out.appendChild(res);
+  window.RESULTADO_PRUEBAS = { pasadas, fallidas };
+</script>
+</body>
+</html>
