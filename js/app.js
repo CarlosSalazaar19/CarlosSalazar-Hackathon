@@ -22,6 +22,8 @@
   };
   const silueta = document.querySelector(".silueta");
   const escudoFig = document.querySelector(".escudo");
+  const brillo = escudoFig.querySelector(".brillo");
+  const barraMunicipio = $("barraMunicipio");
 
   const INICIAL = { municipio: "guadalajara", valor: 1000000, porcentaje: 100 };
   const V_MIN = 100000, V_MAX = 50000000, PASOS = 1000;
@@ -77,8 +79,12 @@
       silueta.style.webkitMaskImage = url;
       silueta.style.maskImage = url;
       el.escudoImg.src = `img/escudos/${m.id}.svg`;
+      const forma = `url("img/escudos/${m.id}.svg")`;
+      brillo.style.webkitMaskImage = forma;
+      brillo.style.maskImage = forma;
       el.escudoImg.alt = "Escudo de " + m.nombre;
       el.escudoNombre.textContent = m.nombre;
+      barraMunicipio.textContent = m.nombre;
       silueta.classList.remove("cambiando");
       escudoFig.classList.remove("cambiando");
     };

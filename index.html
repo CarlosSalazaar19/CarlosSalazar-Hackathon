@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="css/estilos.css?v=20261031-azul">
+<link rel="stylesheet" href="css/estilos.css?v=20261031-plata">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -24,17 +24,26 @@
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17.5v.01"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M12 5l-7 2M12 5l7 2"/><path d="M5 7 2 14a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0z"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
   </defs>
 </svg>
 
 <div class="silueta" aria-hidden="true"></div>
 
+<div class="barra-sup">
+  <div class="barra-int">
+    <span class="barra-marca"><span class="barra-logo"><svg class="ico"><use href="#i-scale"/></svg></span>Calculadora ITP <span class="barra-sep">·</span> Jalisco</span>
+    <span class="barra-meta"><span class="barra-oculto">Leyes de Ingresos municipales</span> 2026 <span class="barra-punto" aria-hidden="true"></span><span id="barraMunicipio">Guadalajara</span></span>
+  </div>
+</div>
+
 <div class="wrap">
   <header class="top">
     <div class="marca">
       <figure class="escudo">
-        <img id="escudo" src="img/escudos/guadalajara.svg" alt="Escudo de Guadalajara" width="76" height="96">
+        <img id="escudo" src="img/escudos/guadalajara.svg" alt="Escudo de Guadalajara" width="92" height="116">
+        <span class="brillo" aria-hidden="true"></span>
       </figure>
       <div class="top-texto">
         <span class="eyebrow"><span id="escudoNombre">Guadalajara</span> · Leyes de Ingresos municipales 2026</span>
@@ -169,8 +178,8 @@
   </footer>
 </div>
 
-<script src="data/itp-2026.js?v=20261031-azul"></script>
-<script src="js/calculo.js?v=20261031-azul"></script>
-<script src="js/app.js?v=20261031-azul"></script>
+<script src="data/itp-2026.js?v=20261031-plata"></script>
+<script src="js/calculo.js?v=20261031-plata"></script>
+<script src="js/app.js?v=20261031-plata"></script>
 </body>
 </html>

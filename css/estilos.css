@@ -23,7 +23,9 @@
   --warn: #E9C08A; --warn-soft: rgba(233, 192, 138, .12);
   --err: #F0A493; --err-soft: rgba(240, 164, 147, .12);
   --silueta: #4F7397; --silueta-op: .30;
-  --plata: grayscale(1) brightness(1.18) contrast(1.08);
+  --plata: grayscale(1) brightness(1.22) contrast(1.18);
+  --brillo-mezcla: overlay; --brillo-op: .9;
+  --barra: rgba(10, 18, 28, .78);
   --shadow: 0 1px 0 rgba(230, 237, 245, .05) inset, 0 20px 40px -24px rgba(0, 0, 0, .75);
   --f-display: "Sora", "Segoe UI", system-ui, sans-serif;
   --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
@@ -39,7 +41,7 @@
     --glow: rgba(143, 176, 210, .55); --track: rgba(46, 74, 102, .14);
     --ok: #2F7A4E; --ok-soft: rgba(47, 122, 78, .1); --warn: #8A5412; --warn-soft: rgba(176, 112, 30, .12);
     --err: #9A2F1F; --err-soft: rgba(154, 47, 31, .1); --silueta: #6F93B8; --silueta-op: .24;
-    --plata: grayscale(1) brightness(.95) contrast(1.15);
+    --plata: grayscale(1) brightness(1.15) contrast(1.4); --brillo-mezcla: soft-light; --brillo-op: 1; --barra: rgba(244, 248, 251, .82);
     --shadow: 0 20px 40px -28px rgba(15, 29, 43, .35);
     color-scheme: light;
   }
@@ -52,7 +54,7 @@
   --glow: rgba(143, 176, 210, .55); --track: rgba(46, 74, 102, .14);
   --ok: #2F7A4E; --ok-soft: rgba(47, 122, 78, .1); --warn: #8A5412; --warn-soft: rgba(176, 112, 30, .12);
   --err: #9A2F1F; --err-soft: rgba(154, 47, 31, .1); --silueta: #6F93B8; --silueta-op: .24;
-  --plata: grayscale(1) brightness(.95) contrast(1.15);
+  --plata: grayscale(1) brightness(1.15) contrast(1.4); --brillo-mezcla: soft-light; --brillo-op: 1; --barra: rgba(244, 248, 251, .82);
   --shadow: 0 20px 40px -28px rgba(15, 29, 43, .35);
   color-scheme: light;
 }
@@ -70,16 +72,38 @@ a { color: var(--accent-2); }
 /* Silueta del municipio, fija y difuminada */
 .silueta {
   position: fixed; z-index: 0; pointer-events: none;
-  right: -4vw; top: 54%; transform: translateY(-50%);
-  width: min(62vw, 760px); height: 82vh; max-width: 100%;
+  right: -10vw; top: 56%; transform: translateY(-50%);
+  width: min(86vw, 1180px); height: 104vh; max-width: none;
   background: var(--silueta); opacity: var(--silueta-op);
   -webkit-mask: url("../img/jalisco.svg") center / contain no-repeat;
           mask: url("../img/jalisco.svg") center / contain no-repeat;
-  filter: blur(14px);
+  filter: blur(12px);
   transition: opacity .35s ease;
 }
 .silueta.cambiando { opacity: 0; }
-@media (max-width: 860px) { .silueta { right: -20vw; width: 110vw; max-width: none; } }
+@media (max-width: 860px) { .silueta { right: -35vw; width: 150vw; height: 96vh; } }
+
+/* Barra horizontal superior, fija al hacer scroll, con filo metálico */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--barra); }
+.barra-sup {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--barra); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.barra-sup::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--metal); opacity: .9; }
+.barra-int {
+  max-width: 1160px; margin: 0 auto; min-height: 58px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.barra-marca { display: inline-flex; align-items: center; gap: 10px; font: 700 14.5px var(--f-display); letter-spacing: .01em; white-space: nowrap; }
+.barra-logo { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: var(--bg); background: var(--metal); box-shadow: 0 4px 14px -4px var(--glow); }
+.barra-sep { color: var(--accent-2); }
+.barra-meta { display: inline-flex; align-items: center; gap: 8px; font: 600 11.5px var(--f-body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.barra-punto { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 10px var(--glow); }
+#barraMunicipio { color: var(--fg); }
+@media (max-width: 640px) { .barra-oculto { display: none; } .barra-int { min-height: 52px; } }
 
 .wrap {
   position: relative; z-index: 1;
@@ -93,18 +117,30 @@ a { color: var(--accent-2); }
 /* Encabezado */
 .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
 .marca { display: flex; gap: 20px; align-items: flex-start; min-width: 0; }
-.escudo { margin: 0; flex: 0 0 auto; width: 76px; height: 96px; display: grid; place-items: center; }
-.escudo { position: relative; }
-.escudo img { width: 76px; height: 96px; object-fit: contain; transition: opacity .35s ease; filter: var(--plata) drop-shadow(0 6px 14px rgba(0, 0, 0, .35)); }
-.escudo.cambiando img { opacity: 0; }
+/* Escudo plateado: imagen en grises con alto contraste + capa de brillo metálico recortada a la forma del escudo */
+.escudo { margin: 0; flex: 0 0 auto; width: 92px; height: 116px; position: relative; display: grid; place-items: center; transition: opacity .35s ease; }
+.escudo img { width: 100%; height: 100%; object-fit: contain; filter: var(--plata) drop-shadow(0 8px 16px rgba(0, 0, 0, .45)); }
+.escudo .brillo {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.75) 46%, rgba(255,255,255,0) 58%) no-repeat,
+    linear-gradient(160deg, #FFFFFF 0%, #CBD6E2 28%, #8E9DAD 52%, #E8EEF4 72%, #7D8B9B 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-position: 120% 0, 0 0;
+  -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat;
+  mix-blend-mode: var(--brillo-mezcla); opacity: var(--brillo-op);
+  animation: destello 6s ease-in-out infinite;
+}
+@keyframes destello { 0%, 55% { background-position: 120% 0, 0 0; } 85%, 100% { background-position: -40% 0, 0 0; } }
+.escudo.cambiando { opacity: 0; }
 .top-texto { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-h1 { font-size: clamp(28px, 4.4vw, 46px); font-weight: 700; line-height: 1.04; letter-spacing: -.02em; max-width: 18ch; }
+h1 { font-size: clamp(36px, 6.2vw, 72px); font-weight: 700; line-height: 1; letter-spacing: -.03em; max-width: 16ch; }
 h1 .acento { display: block; background: var(--metal); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lead { color: var(--muted); max-width: 62ch; font-size: 14px; }
+.lead { color: var(--muted); max-width: 62ch; font-size: 15.5px; }
 @media (max-width: 640px) {
   .top { flex-direction: column; }
   .marca { gap: 14px; }
-  .escudo, .escudo img { width: 54px; height: 68px; }
+  .escudo { width: 66px; height: 84px; }
 }
 
 .btn-ghost {
@@ -189,7 +225,7 @@ input[type="range"]::-moz-range-thumb {
 .card-res > * { position: relative; }
 .hero { border: 1px solid var(--line-strong); border-radius: 16px; padding: 18px 20px; background: linear-gradient(160deg, var(--accent-soft), transparent 60%); display: flex; flex-direction: column; gap: 8px; }
 .hero-lbl { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-2); font-weight: 600; font-size: 13px; }
-.hero-num { font: 700 clamp(34px, 5vw, 48px)/1.05 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--accent); background: var(--metal); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; overflow-wrap: anywhere; }
+.hero-num { font: 700 clamp(40px, 6vw, 60px)/1.05 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--accent); background: var(--metal); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; overflow-wrap: anywhere; }
 .hero-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .badge { font: 600 12px var(--f-body); color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line-strong); border-radius: 999px; padding: 4px 10px; }
 .meta { color: var(--muted); font-size: 12.5px; }
@@ -239,4 +275,4 @@ tr.activa td:first-child { box-shadow: inset 3px 0 0 var(--accent-2); }
 
 .foot { color: var(--muted); font-size: 11.5px; text-align: center; display: flex; flex-direction: column; gap: 4px; max-width: 90ch; margin: 4px auto 0; }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
